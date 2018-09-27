@@ -6,7 +6,7 @@
 ### npm
 
 ```
-npm install mysqltable
+npm install @olavgm/mysqltable
 ```
 
 ## Usage
