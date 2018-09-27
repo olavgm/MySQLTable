@@ -27,7 +27,7 @@ var mysql = {
 }
 
 // Create a data object for the specific table
-var userData = new MySQLTable(mysql, 'users', 'userId')
+var usersTable = new MySQLTable(mysql, 'users', 'userId')
 
 
 // Let's create a new record on the users table!
@@ -37,7 +37,7 @@ var user = {
 }
 
 // Just call the method .create on the data object
-userData.create(user).then((userId) => {
+usersTable.create(user).then((userId) => {
 	// user created
 	console.log(userId)
 })
@@ -48,7 +48,7 @@ userData.create(user).then((userId) => {
 
 
 // Let's list all the records on the table (CRUDL?? :D)
-userData.listAll().then((results) => {
+usersTable.listAll().then((results) => {
 	console.log(results)
 })
 .catch((error) => {
@@ -58,7 +58,7 @@ userData.listAll().then((results) => {
 
 
 // Let's read one record on the list, filtering by Id (assume the userId is 1077)
-userData.read(1077).then((results) => {
+usersTable.read(1077).then((results) => {
 	console.log(results)
 })
 .catch((error) => {
