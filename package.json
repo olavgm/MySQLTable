@@ -1,5 +1,5 @@
 {
-  "name": "mysqltable",
+  "name": "@olavgm/mysqltable",
   "version": "1.0.0",
   "description": "ORM for MySQL",
   "main": "mysqltable.js",
