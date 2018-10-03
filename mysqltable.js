@@ -17,9 +17,9 @@ function MySQLTable (config, tableName, tableId) {
 module.exports = MySQLTable
 
 MySQLTable.prototype.read = (recordId) => {
-  var sql = 'SELECT * FROM ' + module.exports.tableName + ' WHERE ' + module.exports.tableId + ' = ?'
+  var sql = 'SELECT * FROM ?? WHERE ?? = ?'
 
-  return connection.query(sql, recordId).then((results) => {
+  return connection.query(sql, [module.exports.tableName, module.exports.tableId, recordId]).then((results) => {
     if (results && results.length === 1) {
       return (results[0])
     } else {
@@ -29,7 +29,9 @@ MySQLTable.prototype.read = (recordId) => {
 }
 
 MySQLTable.prototype.create = (record) => {
-  var sql = 'INSERT INTO ' + module.exports.tableName + '('
+  var sql = 'INSERT INTO ?? ('
+
+  var parameters = [module.exports.tableName]
 
   var keys = []
   var values = []
@@ -43,7 +45,9 @@ MySQLTable.prototype.create = (record) => {
 
   sql += multiple('??', keys.length).join() + ') VALUES (' + multiple('?', values.length).join() + ')'
 
-  return connection.query(sql, keys.concat(values)).then((result) => {
+  parameters = parameters.concat(keys.concat(values))
+
+  return connection.query(sql, parameters).then((result) => {
     return result.insertId
   })
 }
@@ -86,18 +90,21 @@ MySQLTable.prototype.createMultiple = (records) => {
     valuesString += '(' + multiple('?', keys.length).join() + ')'
   }
 
-  var sql = 'INSERT INTO ' + module.exports.tableName + '('
+  var sql = 'INSERT INTO ?? ('
   sql += multiple('??', keys.length).join() + ') VALUES ' + valuesString
 
-  return connection.query(sql, keys.concat(values)).then(function (result) {
+  var parameters = [module.exports.tableName]
+  parameters = parameters.concat(keys.concat(values))
+
+  return connection.query(sql, parameters).then((result) => {
     return result.affectedRows
   })
 }
 
 MySQLTable.prototype.update = (record) => {
-  var sql = 'UPDATE ' + module.exports.tableName + ' SET '
+  var sql = 'UPDATE ?? SET '
 
-  var parameters = []
+  var parameters = [module.exports.tableName]
   var queryItems = []
 
   for (var key in record) {
@@ -107,26 +114,37 @@ MySQLTable.prototype.update = (record) => {
     }
   }
 
+  sql += queryItems.join() + ' WHERE ?? = ?'
+
+  parameters.push(module.exports.tableId)
   parameters.push(record[module.exports.tableId])
 
-  sql += queryItems.join() + ' WHERE ' + module.exports.tableId + ' = ?'
-
-  return connection.query(sql, parameters)
+  return connection.query(sql, parameters).then((result) => {
+    return result.affectedRows
+  })
 }
 
 MySQLTable.prototype.delete = (recordId) => {
-  var sql = 'DELETE FROM ' + module.exports.tableName + ' WHERE ' + module.exports.tableId + ' = ?'
+  var sql = 'DELETE FROM ?? WHERE ?? = ?'
 
-  return connection.query(sql, recordId).then((result) => {
+  return connection.query(sql, [module.exports.tableName, module.exports.tableId, recordId]).then((result) => {
     return result.affectedRows
   })
 }
 
 MySQLTable.prototype.exists = (recordId) => {
-  var sql = 'SELECT COUNT(*) count FROM ' + module.exports.tableName + ' WHERE ' + module.exports.tableId + ' = ?'
+  var sql = 'SELECT COUNT(*) count FROM ?? WHERE ?? = ?'
 
-  return connection.query(sql, recordId).then((result) => {
+  return connection.query(sql, [module.exports.tableName, module.exports.tableId, recordId]).then((result) => {
     return result[0].count >= 1
+  })
+}
+
+MySQLTable.prototype.listAll = (limit = 1000, offset = 0) => {
+  var sql = 'SELECT * FROM ?? LIMIT ? OFFSET ?'
+
+  return connection.query(sql, [module.exports.tableName, limit, offset]).then((result) => {
+    return result
   })
 }
 
