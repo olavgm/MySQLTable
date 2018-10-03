@@ -130,6 +130,12 @@ MySQLTable.prototype.exists = (recordId) => {
   })
 }
 
+MySQLTable.prototype.runSql = (sql) => {
+  return connection.query(sql).then((result) => {
+    return result
+  })
+}
+
 function multiple (item, times) {
   var result = []
 
