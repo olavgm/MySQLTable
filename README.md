@@ -75,3 +75,4 @@ usersTable.read(1077).then((results) => {
 - delete
 - exists (returns `true` if there is a row with the specified Id)
 - listAll
+- runSql
