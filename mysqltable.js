@@ -148,8 +148,8 @@ MySQLTable.prototype.listAll = (limit = 1000, offset = 0) => {
   })
 }
 
-MySQLTable.prototype.runSql = (sql) => {
-  return connection.query(sql).then((result) => {
+MySQLTable.prototype.runSql = (sql, parameters = []) => {
+  return connection.query(sql, parameters).then((result) => {
     return result
   })
 }
