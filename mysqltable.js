@@ -13,8 +13,6 @@ class MySQLTable {
         })
       }
     }
-
-    console.log('MYSQLTABLE:', this.tableName, this.tableId)
   }
 
   read (recordId) {
