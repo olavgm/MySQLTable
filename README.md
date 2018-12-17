@@ -15,10 +15,10 @@ Let's say you have a table `users` on your MySQL database with a `userId` autoge
 
 ```
 // Import the module
-var MySQLTable = require('mysqlpromise')
+const MySQLTable = require('@olavgm/mysqltable')
 
 // MySQL connection details
-var mysql = {
+let mysql = {
 	host: 'mysqlhost.example.com',
 	user: 'database_user',
 	password: 'database_password',
@@ -27,11 +27,11 @@ var mysql = {
 }
 
 // Create a data object for the specific table
-var usersTable = new MySQLTable(mysql, 'users', 'userId')
+let usersTable = new MySQLTable(mysql, 'users', 'userId')
 
 // Let's create a new record on the users table!
 // Create the object that we will insert in the database (the table contains a field "name")
-var user = {
+let user = {
 	name: 'Lucía'
 }
 
