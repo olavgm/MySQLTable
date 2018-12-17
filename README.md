@@ -15,7 +15,7 @@ Let's say you have a table `users` on your MySQL database with a `userId` autoge
 
 ```
 // Import the module
-var data = require('mysqlpromise')
+var MySQLTable = require('mysqlpromise')
 
 // MySQL connection details
 var mysql = {
@@ -28,7 +28,6 @@ var mysql = {
 
 // Create a data object for the specific table
 var usersTable = new MySQLTable(mysql, 'users', 'userId')
-
 
 // Let's create a new record on the users table!
 // Create the object that we will insert in the database (the table contains a field "name")
@@ -46,7 +45,6 @@ usersTable.create(user).then((userId) => {
 	console.log(error)
 })
 
-
 // Let's list all the records on the table (CRUDL?? :D)
 usersTable.listAll().then((results) => {
 	console.log(results)
@@ -55,7 +53,6 @@ usersTable.listAll().then((results) => {
 	// error retrieving the list
 	console.log(error)
 })
-
 
 // Let's read one record on the list, filtering by Id (assume the userId is 1077)
 usersTable.read(1077).then((results) => {
